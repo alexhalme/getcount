@@ -1,0 +1,20 @@
+CREATE USER 'counter'@'localhost' IDENTIFIED BY 'fC2sifMSmuFrqmoLtWES';
+
+CREATE DATABASE `counter`;
+USE counter;
+CREATE TABLE `hits` (
+  `dhaccess` bigint NOT NULL,
+  `token` varchar(50) NOT NULL,
+  `ip` varchar(99) DEFAULT NULL,
+  `ipdata` json DEFAULT NULL,
+  PRIMARY KEY (`dhaccess`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `su` (
+  `token` varchar(50) NOT NULL,
+  `emails` json DEFAULT NULL,
+  PRIMARY KEY (`token`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+GRANT ALL PRIVILEGES ON `counter`.* TO `counter`@`localhost`;
+FLUSH PRIVILEGES;
+

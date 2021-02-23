@@ -1,0 +1,8 @@
+port: 5009
+sqlCredentials:
+  - localhost
+  - counter
+  - fC2sifMSmuFrqmoLtWES
+  - counter
+mailjetAPIkey: b652acd07b7b7bca8b8f5a4c1371adc7:79d62f47ada8153c8d03eda68aa86be4
+sender: alex@alexhal.me
