@@ -56,9 +56,9 @@ def count(token, fullreq: Request):
     'token': token,
     'ip': fullreq.client.host,
     'ipdata': {
-      **{af.En(k)._u(): af.En(v)._u() for k, v in fullreq.headers.raw if k in ['user-agent']},
+      **{af.En(k)._u(): af.En(v)._u() for k, v in fullreq.headers.raw if k in [b'user-agent']},
       'host': fullreq.client.host,
-      'CONF.port': fullreq.client.port
+      'port': fullreq.client.port
     }
   })
 
@@ -90,7 +90,13 @@ def report(token, secret, since):
     sqlQuery = sql.getDataDicts('hits', where = f"token = '{token}'")
 
   # modify result with adding 'dh' key as date/time YYYY-MM-DDTHH:MM as more easy to read than dhaccess timestamps
-  modQuery = [{**hitDict, 'dt': af.mytime(hitDict['dhaccess'] / 1000000, 0)} for hitDict in sqlQuery]
+  # also remove token as repetitive
+  modQuery = [
+    {
+      **{k: v for k, v in hitDict.items() if not k == 'token'},
+     'dt': af.mytime(hitDict['dhaccess'] / 1000000, 0)
+    } for hitDict in sqlQuery
+  ]
 
   # the report is sent as attachment - file name base for JSON and zip
   fileNameBase = f"{token}_{af.mytime(time.time(), 1)}_{af.mytime(time.time(), 4)}"
